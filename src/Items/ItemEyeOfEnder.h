@@ -16,7 +16,7 @@ class cItemEyeOfEnderHandler final:
 public:
 
 	constexpr cItemEyeOfEnderHandler(int a_ItemType):
-		Super(a_ItemType, cProjectileEntity::pkSnowball, 30)
+	    Super(a_ItemType, cProjectileEntity::pkEnderEye, 20)
 	{
 	}
 
@@ -53,12 +53,26 @@ public:
 					FindAndSetPortal(a_ClickedBlockPos, FacingMeta & 3, ChunkInterface, *a_World);
 					return true;
 				}
-				return false;
+				// TODO: Cancel the 1.8 protocol behavior of pure item using.
+				return true;
 			}
+			
 		}
 
-		// TODO: Create projectile for Eye Of Ender
-		// return Super::OnItemUse(a_World, a_Player, a_PluginInterface, a_Item, a_ClickedBlockPos, a_ClickedBlockFace);
+		// Throw Eye Of Ender instead:
+
+		Vector3d Pos = a_Player->GetThrowStartPos();
+		Vector3d Speed = a_Player->GetLookVector() * m_SpeedCoeff;
+		if (a_World->CreateProjectile(Pos, m_ProjectileKind, a_Player,
+				&a_Player->GetEquippedItem(), &Speed) == cEntity::INVALID_ID)
+		{
+			return false;
+		}
+
+		if (!a_Player->IsGameModeCreative())
+		{
+			a_Player->GetInventory().RemoveOneEquippedItem();
+		}
 
 		return false;
 	}

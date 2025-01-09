@@ -3940,6 +3940,7 @@ UInt8 cProtocol_1_8_0::GetProtocolEntityType(const cEntity & a_Entity) const
 				case PType::pkGhastFireball: return 63;
 				case PType::pkFireCharge: return 64;
 				case PType::pkEnderPearl: return 65;
+				case PType::pkEnderEye: return 72;
 				case PType::pkExpBottle: return 75;
 				case PType::pkSplashPotion: return 73;
 				case PType::pkFirework: return 76;
