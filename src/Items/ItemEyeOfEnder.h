@@ -68,6 +68,9 @@ public:
 		{
 			return false;
 		}
+		a_World->BroadcastSoundEffect("entity.ender_eye.launch", Pos,
+		  0.5f, 0.4f / GetRandomProvider().RandReal(0.8f, 1.2f));
+		// Level event 1003
 
 		if (!a_Player->IsGameModeCreative())
 		{

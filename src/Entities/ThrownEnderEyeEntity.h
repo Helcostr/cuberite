@@ -31,12 +31,11 @@ public:  // tolua_export
 	cThrownEnderEyeEntity(cEntity * a_Creator, Vector3d a_Pos, Vector3d a_Speed);
 
 private:
-
-	/** Teleports the creator where the ender pearl lands */
-	void TeleportCreator(Vector3d a_HitPos);
+	bool b_SurviveAfterDeath;
 
 	// cProjectileEntity overrides:
 	virtual void OnHitEntity(cEntity & a_EntityHit, Vector3d a_HitPos) override;
 	virtual void OnHitSolidBlock(Vector3d a_HitPos, eBlockFace a_HitFace) override;
-
+	virtual void Tick(std::chrono::milliseconds a_Dt, cChunk & a_Chunk) override;
+	virtual void HandlePhysics(std::chrono::milliseconds a_Dt, cChunk & a_Chunk) override;
 } ;  // tolua_export

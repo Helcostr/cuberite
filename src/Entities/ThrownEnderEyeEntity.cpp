@@ -2,78 +2,60 @@
 
 #include "ThrownEnderEyeEntity.h"
 #include "Player.h"
+#include "FastRandom.h"
 
 
 
 
 
 cThrownEnderEyeEntity::cThrownEnderEyeEntity(cEntity * a_Creator, Vector3d a_Pos, Vector3d a_Speed):
-	Super(pkEnderEye, a_Creator, a_Pos, a_Speed, 0.25f, 0.25f)
+	Super(pkEnderEye, a_Creator, a_Pos, a_Speed, 0.25f, 0.25f),
+	b_SurviveAfterDeath(GetRandomProvider().RandBool(0.5))
 {
 }
 
+void cThrownEnderEyeEntity::OnHitEntity(cEntity & a_EntityHit, Vector3d a_HitPos) { }
 
-
-
-
-void cThrownEnderEyeEntity::OnHitEntity(cEntity & a_EntityHit, Vector3d a_HitPos)
+void cThrownEnderEyeEntity::OnHitSolidBlock(
+	Vector3d a_HitPos, eBlockFace a_HitFace)
 {
-	Super::OnHitEntity(a_EntityHit, a_HitPos);
-
-	int Damage = 0;
-	if (a_EntityHit.IsEnderCrystal())
-	{
-		// Endercrystals are destroyed:
-		Damage = CeilC(a_EntityHit.GetHealth());
-	}
-
-	a_EntityHit.TakeDamage(dtRangedAttack, this, Damage, 1);
-	TeleportCreator(a_HitPos);
-	Destroy();
 }
 
+void cThrownEnderEyeEntity::Tick(std::chrono::milliseconds a_Dt, cChunk & a_Chunk) {
+	Super::Tick(a_Dt, a_Chunk);
+	Vector3d Pos = GetPosition();
 
+	// Death of the ender eye if old enough
+	if (m_TicksAlive > 80) {
+		Destroy();
+		cWorld* a_World = GetWorld();
+		a_World->BroadcastSoundEffect("entity.ender_eye.death", Pos, 0.5f, 0.4f / GetRandomProvider().RandReal(0.8f, 1.2f));
+		if (b_SurviveAfterDeath) {
+			cItems Pickups;
+			Pickups.Add(static_cast<ENUM_ITEM_TYPE>(E_ITEM_EYE_OF_ENDER), 1);
+			a_World->SpawnItemPickups(Pickups, Pos);
+		} else {
+			/**
+			* Java level event #2003
+				double d = (double)blockPos.getX() + 0.5;
+                double d11 = blockPos.getY();
+                double d12 = (double)blockPos.getZ() + 0.5;
 
-
-
-void cThrownEnderEyeEntity::OnHitSolidBlock(Vector3d a_HitPos, eBlockFace a_HitFace)
-{
-	Super::OnHitSolidBlock(a_HitPos, a_HitFace);
-
-	TeleportCreator(a_HitPos);
-	Destroy();
-}
-
-
-
-
-
-void cThrownEnderEyeEntity::TeleportCreator(Vector3d a_HitPos)
-{
-	if (m_CreatorData.m_Name.empty())
-	{
-		return;
-	}
-
-
-
-	GetWorld()->FindAndDoWithPlayer(m_CreatorData.m_Name, [=](cPlayer & a_Entity)
-	{
-
-		auto & Random = GetRandomProvider();
-
-		// 5% chance to spawn an endermite
-		if (Random.RandBool(0.05))
-		{
-			Vector3d PlayerPosition = a_Entity.GetPosition();
-			m_World->SpawnMob(PlayerPosition.x, PlayerPosition.y, PlayerPosition.z, mtEndermite);
+				// Is this just the particles for the ender eye breaking???
+				// If so, use???:
+				// m_World->BroadcastEntityAnimation(*this, EntityAnimation::EggCracks);
+                for (int i = 0; i < 8; ++i) {
+                    this.addParticle(new ItemParticleOption(ParticleTypes.ITEM, new ItemStack(Items.ENDER_EYE)), d, d11, d12, random.nextGaussian() * 0.15, random.nextDouble() * 0.2, random.nextGaussian() * 0.15);
+                }
+                for (double d13 = 0.0; d13 < Math.PI * 2; d13 += 0.15707963267948966) {
+                    this.addParticle(ParticleTypes.PORTAL, d + Math.cos(d13) * 5.0, d11 - 0.4, d12 + Math.sin(d13) * 5.0, Math.cos(d13) * -5.0, 0.0, Math.sin(d13) * -5.0);
+                    this.addParticle(ParticleTypes.PORTAL, d + Math.cos(d13) * 5.0, d11 - 0.4, d12 + Math.sin(d13) * 5.0, Math.cos(d13) * -7.0, 0.0, Math.sin(d13) * -7.0);
+                }
+			*/
 		}
-
-
-		// Teleport the creator here, make them take 5 damage:
-		a_Entity.TeleportToCoords(a_HitPos.x, a_HitPos.y + 0.2, a_HitPos.z);
-		a_Entity.TakeDamage(dtEnderPearl, this, 5, 0);
-
-		return false;
-	});
+	}
 }
+
+void cThrownEnderEyeEntity::HandlePhysics(std::chrono::milliseconds a_Dt, cChunk & a_Chunk) { }
+
+
