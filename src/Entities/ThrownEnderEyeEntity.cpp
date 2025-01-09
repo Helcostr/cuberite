@@ -10,8 +10,28 @@
 
 cThrownEnderEyeEntity::cThrownEnderEyeEntity(cEntity * a_Creator, Vector3d a_Pos, Vector3d a_Speed):
 	Super(pkEnderEye, a_Creator, a_Pos, a_Speed, 0.25f, 0.25f),
-	b_SurviveAfterDeath(GetRandomProvider().RandBool(0.5))
+	b_SurviveAfterDeath(GetRandomProvider().RandBool(0.5)),
+	f_tx(0), f_ty(0), f_tz(0)
 {
+	double d = a_Speed.x;
+	int n = a_Speed.y;
+	double d2 = d - a_Pos.x;
+	double d3 = a_Speed.z;
+	double d4 = d3 - a_Pos.z;
+	
+	float f = sqrt(d2 * d2 + d4 * d4);
+	if (f > 12.f)
+	{
+		f_tx = a_Pos.x + d2 / (double) f * 12.0;
+		f_tz = a_Pos.z + d4 / (double) f * 12.0;
+		f_ty = a_Pos.y + 8.0;
+	}
+	else
+	{
+		f_tx = d;
+		f_ty = n;
+		f_tz = d3;
+	}
 }
 
 void cThrownEnderEyeEntity::OnHitEntity(cEntity & a_EntityHit, Vector3d a_HitPos) { }
@@ -22,8 +42,21 @@ void cThrownEnderEyeEntity::OnHitSolidBlock(
 }
 
 void cThrownEnderEyeEntity::Tick(std::chrono::milliseconds a_Dt, cChunk & a_Chunk) {
-	Super::Tick(a_Dt, a_Chunk);
+    // IIRC, obj stored into obj is bad? Improve robustness of Vector?
 	Vector3d Pos = GetPosition();
+	oldPos = Pos;
+	Super::Tick(a_Dt, a_Chunk);
+	Pos += deltaMovement;
+	SetPosition(Pos);
+	float f = sqrt(deltaMovement.x * deltaMovement.x
+	  + deltaMovement.z * deltaMovement.z);
+	static const float magicNumber = 57.2957763671875;
+	SetPitch(atan2(deltaMovement.x, deltaMovement.z) * magicNumber);
+	SetYaw(atan2(deltaMovement.y, f) * magicNumber);
+	WrapRotation();
+
+	
+	
 
 	// Death of the ender eye if old enough
 	if (m_TicksAlive > 80) {
