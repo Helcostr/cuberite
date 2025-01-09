@@ -53,8 +53,8 @@ public:
 					FindAndSetPortal(a_ClickedBlockPos, FacingMeta & 3, ChunkInterface, *a_World);
 					return true;
 				}
+				return false;
 			}
-			return false;
 		}
 
 		// TODO: Create projectile for Eye Of Ender
