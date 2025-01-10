@@ -9,21 +9,23 @@
 
 
 cThrownEnderEyeEntity::cThrownEnderEyeEntity(cEntity * a_Creator, Vector3d a_Pos, Vector3d a_Speed):
-	Super(pkEnderEye, a_Creator, a_Pos, a_Speed, 0.25f, 0.25f),
+    // Set speed to zero, but use the data for eye of ender calculations
+	Super(pkEnderEye, a_Creator, a_Pos, {0,0,0}, 0.25f, 0.25f),
 	b_SurviveAfterDeath(GetRandomProvider().RandBool(0.5)),
 	f_tx(0), f_ty(0), f_tz(0), xRot0(0), yRot0(0)
 {
+	// SetGravity(0.0f);
 	double d = a_Speed.x;
 	int n = a_Speed.y;
 	double d2 = d - a_Pos.x;
 	double d3 = a_Speed.z;
 	double d4 = d3 - a_Pos.z;
 	
-	float f = sqrt(d2 * d2 + d4 * d4);
+	double f = sqrt(d2 * d2 + d4 * d4);
 	if (f > 12.f)
 	{
-		f_tx = a_Pos.x + d2 / (double) f * 12.0;
-		f_tz = a_Pos.z + d4 / (double) f * 12.0;
+		f_tx = a_Pos.x + d2 / f * 12.0;
+		f_tz = a_Pos.z + d4 / f * 12.0;
 		f_ty = a_Pos.y + 8.0;
 	}
 	else
@@ -46,11 +48,17 @@ void cThrownEnderEyeEntity::Tick(std::chrono::milliseconds a_Dt, cChunk & a_Chun
 	Vector3d Pos = GetPosition();
 
 	// This is a bit of a mess, but it's a direct port of the Java code.
-	oldPos = Pos;
+	// TODO: move this into HandlePhysics?
+
+	// oldPos = Pos; // unused in Java code?
+	xRot0 = GetYaw();
+	yRot0 = GetPitch();
+
 	Super::Tick(a_Dt, a_Chunk);
+	FLOGD("Eye of Ender at {0:.02f} with speed {1:.02f}", Pos,GetSpeed());
 	Pos += deltaMovement;
 	SetPosition(Pos);
-	float f = sqrt(deltaMovement.x * deltaMovement.x
+	double f = sqrt(deltaMovement.x * deltaMovement.x
 	  + deltaMovement.z * deltaMovement.z);
 	static const float magicNumber = 57.2957763671875;
 	double yRot = atan2(deltaMovement.x, deltaMovement.z) * magicNumber;
@@ -63,9 +71,12 @@ void cThrownEnderEyeEntity::Tick(std::chrono::milliseconds a_Dt, cChunk & a_Chun
 	// xRot0 += xNorm / 360.0f + fmod(xNorm,360.0f);
 	while (yRot - yRot0 < -180.0f) { yRot0 -= 360.0f; }
 	while (yRot - yRot0 >= 180.0f) { yRot0 += 360.0f; }
-
+	// print rot
+	// FLOGD("OldRotations: {0}, {1}", xRot0, yRot0);
+	// FLOGD("Rotations: {0}, {1}", xRot, yRot);
 	SetYaw(xRot0 + 0.2 * (xRot-xRot0));
 	SetPitch(yRot0 + 0.2 * (yRot - yRot0));
+
 	double d = f_tx - Pos.x;
 	double d2 = f_tz - Pos.z;
 	double f2 = sqrt(d * d + d2 * d2);
@@ -82,6 +93,9 @@ void cThrownEnderEyeEntity::Tick(std::chrono::milliseconds a_Dt, cChunk & a_Chun
 	  d4 + (n - d4)*.015,
 	  sin(f3) * d3
 	);
+	SetSpeed(deltaMovement.x * 20., deltaMovement.y * 20., deltaMovement.z * 20.);
+	// print delta movement
+	FLOGD("DeltaMovement: {0:.02f}", deltaMovement);
 
 	// Death of the ender eye if old enough
 	if (m_TicksAlive > 80) {
