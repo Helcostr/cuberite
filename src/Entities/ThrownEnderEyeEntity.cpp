@@ -11,7 +11,7 @@
 cThrownEnderEyeEntity::cThrownEnderEyeEntity(cEntity * a_Creator, Vector3d a_Pos, Vector3d a_Speed):
 	Super(pkEnderEye, a_Creator, a_Pos, a_Speed, 0.25f, 0.25f),
 	b_SurviveAfterDeath(GetRandomProvider().RandBool(0.5)),
-	f_tx(0), f_ty(0), f_tz(0)
+	f_tx(0), f_ty(0), f_tz(0), xRot0(0), yRot0(0)
 {
 	double d = a_Speed.x;
 	int n = a_Speed.y;
@@ -44,6 +44,8 @@ void cThrownEnderEyeEntity::OnHitSolidBlock(
 void cThrownEnderEyeEntity::Tick(std::chrono::milliseconds a_Dt, cChunk & a_Chunk) {
     // IIRC, obj stored into obj is bad? Improve robustness of Vector?
 	Vector3d Pos = GetPosition();
+
+	// This is a bit of a mess, but it's a direct port of the Java code.
 	oldPos = Pos;
 	Super::Tick(a_Dt, a_Chunk);
 	Pos += deltaMovement;
@@ -51,12 +53,35 @@ void cThrownEnderEyeEntity::Tick(std::chrono::milliseconds a_Dt, cChunk & a_Chun
 	float f = sqrt(deltaMovement.x * deltaMovement.x
 	  + deltaMovement.z * deltaMovement.z);
 	static const float magicNumber = 57.2957763671875;
-	SetPitch(atan2(deltaMovement.x, deltaMovement.z) * magicNumber);
-	SetYaw(atan2(deltaMovement.y, f) * magicNumber);
-	WrapRotation();
+	double yRot = atan2(deltaMovement.x, deltaMovement.z) * magicNumber;
+	double xRot = atan2(deltaMovement.y, f) * magicNumber;
 
-	
-	
+	while (xRot - xRot0 < -180.0f) { xRot0 -= 360.0f; }
+	while (xRot - xRot0 >= 180.0f) { xRot0 += 360.0f; }
+	// Trying not to use while loops? Investigate later.
+	// double xNorm = ((xRot - xRot0) + 180.0);
+	// xRot0 += xNorm / 360.0f + fmod(xNorm,360.0f);
+	while (yRot - yRot0 < -180.0f) { yRot0 -= 360.0f; }
+	while (yRot - yRot0 >= 180.0f) { yRot0 += 360.0f; }
+
+	SetYaw(xRot0 + 0.2 * (xRot-xRot0));
+	SetPitch(yRot0 + 0.2 * (yRot - yRot0));
+	double d = f_tx - Pos.x;
+	double d2 = f_tz - Pos.z;
+	double f2 = sqrt(d * d + d2 * d2);
+	double f3 = atan2(d2, d);
+	double d3 = f + 0.0025 * (f2 - f);
+	double d4 = deltaMovement.y;
+	if (f2 < 1.0) {
+		d3 *= .8;
+		d4 *= .8;
+	}
+	int n = Pos.y < f_ty ? 1 : -1;
+	deltaMovement.Set(
+	  cos(f3) * d3,
+	  d4 + (n - d4)*.015,
+	  sin(f3) * d3
+	);
 
 	// Death of the ender eye if old enough
 	if (m_TicksAlive > 80) {

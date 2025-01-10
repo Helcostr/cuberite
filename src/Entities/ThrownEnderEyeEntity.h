@@ -24,6 +24,7 @@ private:
   Vector3d oldPos;
   Vector3d deltaMovement;
   double f_tx, f_ty, f_tz;
+  double xRot0, yRot0;
 
   // cProjectileEntity overrides:
   virtual void OnHitEntity(cEntity & a_EntityHit, Vector3d a_HitPos) override;

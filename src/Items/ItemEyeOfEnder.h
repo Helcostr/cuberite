@@ -62,7 +62,7 @@ public:
 		// Throw Eye Of Ender instead:
 
 		Vector3d Pos = a_Player->GetThrowStartPos();
-		Vector3d Speed = a_Player->GetLookVector() * m_SpeedCoeff;
+		Vector3d Speed = a_Player->GetLookVector() * m_SpeedCoeff + Pos;
 		if (a_World->CreateProjectile(Pos, m_ProjectileKind, a_Player,
 				&a_Player->GetEquippedItem(), &Speed) == cEntity::INVALID_ID)
 		{
