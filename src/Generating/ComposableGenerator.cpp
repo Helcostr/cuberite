@@ -231,7 +231,8 @@ void cComposableGenerator::InitializeGeneratorDefaults(cIniFile & a_IniFile, eDi
 				"PreSimulator, "
 				"Animals, "
 				"OverworldClumpFlowers, "
-				"ForestRocks"
+				"ForestRocks,"
+				"PieceStructures: Fortress "
 			);
 			break;
 		}  // dimOverworld
