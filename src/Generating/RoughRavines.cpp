@@ -29,7 +29,7 @@ public:
 		float a_CeilingHeightEdge1, float a_CeilingHeightEdge2, float a_CeilingHeightCenter,
 		int a_GridX, int a_GridZ, int a_OriginX, int a_OriginZ
 	):
-		Super(a_GridX, a_GridZ, a_OriginX, a_OriginZ),
+	  Super("RoughRavine", a_GridX, a_GridZ, a_OriginX, a_OriginZ),
 		m_Seed(a_Seed + 100),
 		m_Noise(a_Seed + 100),
 		m_Roughness(a_Roughness)

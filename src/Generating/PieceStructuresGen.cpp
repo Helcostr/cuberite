@@ -65,7 +65,7 @@ public:
 		cPlacedPieces OutPieces;
 		cPieceGeneratorBFSTree PieceTree(m_PiecePool, m_Seed);
 		PieceTree.PlacePieces(a_OriginX, a_OriginZ, m_MaxDepth, OutPieces);
-		return std::make_shared<cPrefabStructure>(a_GridX, a_GridZ, a_OriginX, a_OriginZ, std::move(OutPieces), m_HeightGen);
+		return std::make_shared<cPrefabStructure>(m_Name, a_GridX, a_GridZ, a_OriginX, a_OriginZ, std::move(OutPieces), m_HeightGen);
 	}
 
 

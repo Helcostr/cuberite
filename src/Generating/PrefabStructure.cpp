@@ -12,12 +12,13 @@
 
 
 cPrefabStructure::cPrefabStructure(
+	AString a_Name,
 	int a_GridX, int a_GridZ,
 	int a_OriginX, int a_OriginZ,
 	cPlacedPieces && a_Pieces,
 	cTerrainHeightGen & a_HeightGen
 ):
-	Super(a_GridX, a_GridZ, a_OriginX, a_OriginZ),
+	Super(a_Name, a_GridX, a_GridZ, a_OriginX, a_OriginZ),
 	m_Pieces(std::move(a_Pieces)),
 	m_HeightGen(a_HeightGen)
 {

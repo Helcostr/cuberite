@@ -100,6 +100,8 @@ public:
 	/** Returns the biome at the specified coords. Used by ChunkMap if an invalid chunk is queried for biome */
 	EMCSBiome GetBiomeAt(int a_BlockX, int a_BlockZ);
 
+	Vector3i GetNearestStructure(AString structure, Vector3i pos);
+
 
 private:
 

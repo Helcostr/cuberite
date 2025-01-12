@@ -60,15 +60,18 @@ public:
 		}
 
 		// Throw Eye Of Ender instead:
+		Vector3d throw_start_position = a_Player->GetThrowStartPos();
+		
+		Vector3d Speed = a_World->GetGenerator().GetNearestStructure(
+			"Fortress", a_Player->GetPosition());
 
-		Vector3d Pos = a_Player->GetThrowStartPos();
-		Vector3d Speed = a_Player->GetLookVector() * m_SpeedCoeff + Pos;
-		if (a_World->CreateProjectile(Pos, m_ProjectileKind, a_Player,
+
+		if (a_World->CreateProjectile(throw_start_position, m_ProjectileKind, a_Player,
 				&a_Player->GetEquippedItem(), &Speed) == cEntity::INVALID_ID)
 		{
 			return false;
 		}
-		a_World->BroadcastSoundEffect("entity.ender_eye.launch", Pos,
+		a_World->BroadcastSoundEffect("entity.ender_eye.launch", throw_start_position,
 		  0.5f, 0.4f / GetRandomProvider().RandReal(0.8f, 1.2f));
 		// Level event 1003
 

@@ -75,6 +75,11 @@ EMCSBiome cChunkGenerator::GetBiomeAt(int a_BlockX, int a_BlockZ)
 	return cChunkDef::GetBiome(Biomes, a_BlockX, a_BlockZ);
 }
 
+Vector3i cChunkGenerator::GetNearestStructure(
+	AString structure, Vector3i pos)
+{
+	return Vector3i();
+}
 
 
 

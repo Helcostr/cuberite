@@ -35,6 +35,8 @@ public:
 	The default implementation uses GenerateBiomes(). */
 	virtual EMCSBiome GetBiomeAt(int a_BlockX, int a_BlockZ);
 
+	virtual Vector3i GetNearestStructure(AString structure, Vector3i pos);
+
 	/** Does the actual chunk generation.
 	Descendants need to override this and generate into a_ChunkDesc. */
 	virtual void Generate(cChunkDesc & a_ChunkDesc) = 0;

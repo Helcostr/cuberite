@@ -24,7 +24,7 @@ class cEmptyStructure:
 public:
 
 	cEmptyStructure(int a_GridX, int a_GridZ, int a_OriginX, int a_OriginZ) :
-		Super(a_GridX, a_GridZ, a_OriginX, a_OriginZ)
+	  Super("EmptyStructure", a_GridX, a_GridZ, a_OriginX, a_OriginZ)
 	{
 	}
 
@@ -124,6 +124,23 @@ void cGridStructGen::SetGeneratorParams(const AStringMap & a_GeneratorParams)
 	auto seedOffset = GetStringMapInteger<int>(a_GeneratorParams, "SeedOffset", 0);
 	m_Seed = m_BaseSeed + seedOffset;
 	m_Noise.SetSeed(m_Seed);
+}
+
+Vector3i cGridStructGen::GetNearestStructure(
+	AString structure, Vector3i pos)
+{
+	// generate new cStructurePtrs list and put it into GetStructuresForChunk
+	cStructurePtrs Structures;
+	cChunkCoords origin = cChunkDef::BlockToChunk(pos);
+	GetStructuresForChunk(origin.m_ChunkX, origin.m_ChunkZ, Structures);
+	for (cStructurePtrs::const_iterator itr = Structures.begin();
+		 itr != Structures.end(); ++itr)
+	{
+		if ((*itr)->GetName() == structure) {
+			return Vector3i((*itr)->m_OriginX, 0, (*itr)->m_OriginZ);
+		}
+	}
+	return Vector3i();
 }
 
 

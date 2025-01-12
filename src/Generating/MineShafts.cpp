@@ -286,7 +286,7 @@ cStructGenMineShafts::cMineShaftSystem::cMineShaftSystem(
 	int a_GridSize, int a_MaxSystemSize, cNoise & a_Noise,
 	int a_ProbLevelCorridor, int a_ProbLevelCrossing, int a_ProbLevelStaircase
 ) :
-	Super(a_GridX, a_GridZ, a_OriginX, a_OriginZ),
+	Super("MineShaft", a_GridX, a_GridZ, a_OriginX, a_OriginZ),
 	m_GridSize(a_GridSize),
 	m_MaxRecursion(8),  // TODO: settable
 	m_ProbLevelCorridor(a_ProbLevelCorridor),

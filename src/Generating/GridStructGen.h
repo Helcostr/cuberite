@@ -49,6 +49,7 @@ public:
 	class cStructure
 	{
 	public:
+		AString m_Name;
 		/** The grid point for which the structure is generated. */
 		int m_GridX, m_GridZ;
 
@@ -56,8 +57,12 @@ public:
 		int m_OriginX, m_OriginZ;
 
 
-		/** Creates a structure that has its origin set at the specified coords. */
-		cStructure (int a_GridX, int a_GridZ, int a_OriginX, int a_OriginZ) :
+		/** Creates a structure that has its origin set at the specified coords.
+		 */
+		cStructure(
+			AString a_Name, int a_GridX, int a_GridZ, int a_OriginX,
+			int a_OriginZ) :
+			m_Name(a_Name),
 			m_GridX(a_GridX),
 			m_GridZ(a_GridZ),
 			m_OriginX(a_OriginX),
@@ -73,26 +78,27 @@ public:
 
 		/** Returns the cost of keeping this structure in the cache */
 		virtual size_t GetCacheCost(void) const { return 1; }
-	} ;
+
+		AString GetName() { return m_Name; };
+	};
 	typedef std::shared_ptr<cStructure> cStructurePtr;
 	typedef std::list<cStructurePtr> cStructurePtrs;
 
 
 	cGridStructGen(
-		int a_Seed,
-		int a_GridSizeX, int a_GridSizeZ,
-		int a_MaxOffsetX, int a_MaxOffsetZ,
-		int a_MaxStructureSizeX, int a_MaxStructureSizeZ,
-		size_t a_MaxCacheSize
-	);
+		int a_Seed, int a_GridSizeX, int a_GridSizeZ, int a_MaxOffsetX,
+		int a_MaxOffsetZ, int a_MaxStructureSizeX, int a_MaxStructureSizeZ,
+		size_t a_MaxCacheSize);
 
-	/** Creates a new instance that has the generation parameters set to defaults.
-	This is used for instances that are later loaded from a file. */
+	/** Creates a new instance that has the generation parameters set to
+	defaults. This is used for instances that are later loaded from a file. */
 	cGridStructGen(int a_Seed);
 
 	/** Sets the generator params based on the dictionary passed in.
 	Note that this must not be called anymore after generating a chunk. */
 	void SetGeneratorParams(const AStringMap & a_GeneratorParams);
+
+	Vector3i GetNearestStructure(AString structure, Vector3i start);
 
 	// cFinishGen override:
 	virtual void GenFinish(cChunkDesc & a_ChunkDesc) override;

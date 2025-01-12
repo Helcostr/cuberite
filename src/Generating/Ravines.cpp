@@ -103,7 +103,7 @@ cGridStructGen::cStructurePtr cStructGenRavines::CreateStructure(int a_GridX, in
 // cStructGenRavines::cRavine
 
 cStructGenRavines::cRavine::cRavine(int a_GridX, int a_GridZ, int a_OriginX, int a_OriginZ, int a_Size, cNoise & a_Noise) :
-	Super(a_GridX, a_GridZ, a_OriginX, a_OriginZ)
+	Super("Ravine", a_GridX, a_GridZ, a_OriginX, a_OriginZ)
 {
 	// Calculate the ravine shape-defining points:
 	GenerateBaseDefPoints(a_OriginX, a_OriginZ, a_Size, a_Noise);
