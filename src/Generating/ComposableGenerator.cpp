@@ -198,10 +198,17 @@ void cComposableGenerator::Generate(cChunkDesc & a_ChunkDesc)
 Vector3i cComposableGenerator::GetNearestStructure(
 	AString structure, Vector3i pos)
 {
+	// log the fact that we are using composable generator
+	LOGD("Using composable generator to find nearest structure");
 	cGridStructGen * GridStructGen;
 	for (const std::unique_ptr<cFinishGen> & Finisher : m_FinishGens) {
+		FLOGD("Checking Finishers {0}", Finisher);
 		GridStructGen = dynamic_cast<cGridStructGen *>(Finisher.get());
-		if (GridStructGen == nullptr) continue;
+		if (GridStructGen == nullptr)
+		{
+			FLOGD("Couldn't cast to GridStructGen");
+			continue;
+		}
 		GridStructGen->GetNearestStructure(structure, pos);
 	}
 	return Vector3i();

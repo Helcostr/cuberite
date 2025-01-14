@@ -132,7 +132,12 @@ Vector3i cGridStructGen::GetNearestStructure(
 	// generate new cStructurePtrs list and put it into GetStructuresForChunk
 	cStructurePtrs Structures;
 	cChunkCoords origin = cChunkDef::BlockToChunk(pos);
+	// ouptut chunk coords
+	
 	GetStructuresForChunk(origin.m_ChunkX, origin.m_ChunkZ, Structures);
+	FLOGD(
+		"cGridStructGen::GetNearestStructure: origin chunk coords: {0}. Amount of structures {1}",
+		origin, Structures.size());
 	for (cStructurePtrs::const_iterator itr = Structures.begin();
 		 itr != Structures.end(); ++itr)
 	{

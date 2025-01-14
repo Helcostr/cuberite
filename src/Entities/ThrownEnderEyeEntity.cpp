@@ -55,7 +55,7 @@ void cThrownEnderEyeEntity::Tick(std::chrono::milliseconds a_Dt, cChunk & a_Chun
 	yRot0 = GetPitch();
 
 	Super::Tick(a_Dt, a_Chunk);
-	FLOGD("Eye of Ender at {0:.02f} with speed {1:.02f}", Pos,GetSpeed());
+	// FLOGD("Eye of Ender at {0:.02f} with speed {1:.02f}", Pos,GetSpeed());
 	Pos += deltaMovement;
 	SetPosition(Pos);
 	double f = sqrt(deltaMovement.x * deltaMovement.x
@@ -94,8 +94,6 @@ void cThrownEnderEyeEntity::Tick(std::chrono::milliseconds a_Dt, cChunk & a_Chun
 	  sin(f3) * d3
 	);
 	SetSpeed(deltaMovement.x * 20., deltaMovement.y * 20., deltaMovement.z * 20.);
-	// print delta movement
-	FLOGD("DeltaMovement: {0:.02f}", deltaMovement);
 
 	// Death of the ender eye if old enough
 	if (m_TicksAlive > 80) {
