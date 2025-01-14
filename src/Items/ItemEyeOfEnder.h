@@ -61,10 +61,10 @@ public:
 
 		// Throw Eye Of Ender instead:
 		Vector3d throw_start_position = a_Player->GetThrowStartPos();
-		
+		Vector3i playerPos = a_Player->GetPosition();
 		Vector3d Speed = a_World->GetGenerator().GetNearestStructure(
-			"Fortress", a_Player->GetPosition());
-
+			"Fortress", playerPos);
+		if (Speed == playerPos) return false;
 
 		if (a_World->CreateProjectile(throw_start_position, m_ProjectileKind, a_Player,
 				&a_Player->GetEquippedItem(), &Speed) == cEntity::INVALID_ID)

@@ -133,23 +133,26 @@ Vector3i cGridStructGen::GetNearestStructure(
 	cChunkCoords origin = cChunkDef::BlockToChunk(a_StartPos);
 	GetStructuresForChunk(origin.m_ChunkX, origin.m_ChunkZ, Structures, 200);
 	FLOGD(
-		"cGridStructGen::GetNearestStructure: origin chunk coords: {0}. Amount of structures {1}",
+		"cGridStructGen::GetNearestStructure: origin chunk coords: {0}. Amount of structures to sift through {1}",
 		origin, Structures.size());
 	double minDist = std::numeric_limits<double>::max();
-	Vector3i nearest;
+	Vector3i nearest = a_StartPos;
 	for (cStructurePtrs::const_iterator itr = Structures.begin();
 		 itr != Structures.end(); ++itr)
 	{
-		// if ((*itr)->GetName() == structure) {
-		// this  is not needed, as all structures should share the same name
-		Vector3i structurePos =
-			Vector3i((*itr)->m_OriginX, 0, (*itr)->m_OriginZ);
+		// convert itr's grid coords to block coords
+		Vector3i structurePos = Vector3i(
+			(*itr)->m_OriginX + (*itr)->m_GridX * m_GridSizeX, 0,
+			(*itr)->m_OriginZ + (*itr)->m_GridZ * m_GridSizeZ);
 		double sqrDist = (a_StartPos - structurePos).SqrLength() < minDist;
+		FLOGD(
+			"Structure {0} at {1} has distance {2}", (*itr)->GetName(),
+			structurePos, sqrDist);
 		if (sqrDist < minDist)
 		{
 			minDist = sqrDist;
 			nearest = structurePos;
-		}  
+		}
 	}
 	return nearest;
 }
