@@ -57,6 +57,8 @@ public:
 		return true;
 	}
 
+	AString GetName() const { return m_Name; };
+
 
 
 	// cGridStructGen overrides:
@@ -159,6 +161,16 @@ bool cPieceStructuresGen::Initialize(const AString & a_Prefabs, int a_SeaLevel, 
 		return false;
 	}
 	return true;
+}
+
+Vector3i
+cPieceStructuresGen::GetNearestStructure(AString structure, Vector3i start) {
+	for (auto & Gen : m_Gens)
+	{
+		if (Gen->GetName() == structure)
+			return Gen->GetNearestStructure(structure, start);
+	}
+	return Vector3i();
 }
 
 

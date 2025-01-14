@@ -79,7 +79,7 @@ public:
 		/** Returns the cost of keeping this structure in the cache */
 		virtual size_t GetCacheCost(void) const { return 1; }
 
-		AString GetName() { return m_Name; };
+		AString GetName() const { return m_Name; };
 	};
 	typedef std::shared_ptr<cStructure> cStructurePtr;
 	typedef std::list<cStructurePtr> cStructurePtrs;
@@ -98,7 +98,7 @@ public:
 	Note that this must not be called anymore after generating a chunk. */
 	void SetGeneratorParams(const AStringMap & a_GeneratorParams);
 
-	Vector3i GetNearestStructure(AString structure, Vector3i start);
+	Vector3i GetNearestStructure(AString a_StructureName, Vector3i a_StartPos);
 
 	// cFinishGen override:
 	virtual void GenFinish(cChunkDesc & a_ChunkDesc) override;
@@ -151,6 +151,12 @@ protected:
 	The structures are considered as intersecting iff their bounding box (defined by m_MaxStructureSize)
 	around their gridpoint intersects the chunk. */
 	void GetStructuresForChunk(int a_ChunkX, int a_ChunkZ, cStructurePtrs & a_Structures);
+	/*
+	Returns all structures that may intersect the given chunk or a radius beyond.
+	The structures are considered as intersecting iff their bounding box
+	(defined by m_MaxStructureSize) around their gridpoint intersects the chunk.
+	*/
+	void GetStructuresForChunk(int a_ChunkX, int a_ChunkZ, cStructurePtrs & a_Structures, int radius);
 
 	// Functions for the descendants to override:
 	/** Create a new structure at the specified gridpoint */
