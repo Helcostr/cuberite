@@ -17,7 +17,7 @@
 #include "../World.h"
 
 // Enums
-#include "./Enums/SoundEvent.h"
+#include "../Registries/SoundEvent.h"
 
 
 

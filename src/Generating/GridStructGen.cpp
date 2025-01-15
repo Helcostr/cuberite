@@ -131,7 +131,7 @@ Vector3i cGridStructGen::GetNearestStructure(
 {	
 	cStructurePtrs Structures;
 	cChunkCoords origin = cChunkDef::BlockToChunk(a_StartPos);
-	GetStructuresForChunk(origin.m_ChunkX, origin.m_ChunkZ, Structures, 200);
+	GetStructuresForChunk(origin.m_ChunkX, origin.m_ChunkZ, Structures, 100);
 	FLOGD(
 		"cGridStructGen::GetNearestStructure: origin chunk coords: {0}. Amount of structures to sift through {1}",
 		origin, Structures.size());

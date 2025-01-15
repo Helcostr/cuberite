@@ -3,7 +3,7 @@
 
 #include "../Defines.h"
 #include "../Scoreboard.h"
-#include "../Protocol/Enums/SoundEvent.h"
+#include "../Registries/SoundEvent.h"
 
 // fwd:
 class cClientHandle;
