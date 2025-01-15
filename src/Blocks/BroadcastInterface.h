@@ -3,6 +3,7 @@
 
 #include "../Defines.h"
 #include "../Scoreboard.h"
+#include "../Protocol/Enums/SoundEvent.h"
 
 // fwd:
 class cClientHandle;
@@ -10,7 +11,7 @@ class cCompositeChat;
 class cPlayer;
 class cWorld;
 enum class EffectID : Int32;
-enum SoundEvent;
+
 
 
 

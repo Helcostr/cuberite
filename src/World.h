@@ -42,7 +42,6 @@ class cUUID;
 
 struct SetChunkData;
 
-enum SoundEvent;
 
 
 

@@ -71,8 +71,10 @@ public:
 		{
 			return false;
 		}
-		a_World->BroadcastSoundEffect("entity.ender_eye.launch", throw_start_position,
-		  0.5f, 0.4f / GetRandomProvider().RandReal(0.8f, 1.2f));
+		a_World->BroadcastSoundEffect(
+		  SoundEvent::EnderEyeLaunch,
+		  a_Player->GetPosition() - Vector3d(0, a_Player->GetHeight(), 0),
+		  1.f, 0.4f / GetRandomProvider().RandReal(0.8f, 1.2f));
 		// Level event 1003
 
 		if (!a_Player->IsGameModeCreative())

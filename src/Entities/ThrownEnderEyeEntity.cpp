@@ -99,7 +99,7 @@ void cThrownEnderEyeEntity::Tick(std::chrono::milliseconds a_Dt, cChunk & a_Chun
 	if (m_TicksAlive > 80) {
 		Destroy();
 		cWorld* a_World = GetWorld();
-		a_World->BroadcastSoundEffect("entity.ender_eye.death", Pos, 0.5f, 0.4f / GetRandomProvider().RandReal(0.8f, 1.2f));
+		a_World->BroadcastSoundEffect(SoundEvent::EnderEyeDeath, Pos, 0.5f, 0.4f / GetRandomProvider().RandReal(0.8f, 1.2f));
 		if (b_SurviveAfterDeath) {
 			cItems Pickups;
 			Pickups.Add(static_cast<ENUM_ITEM_TYPE>(E_ITEM_EYE_OF_ENDER), 1);
