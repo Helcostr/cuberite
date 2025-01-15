@@ -201,10 +201,10 @@ Vector3i cComposableGenerator::GetNearestStructure(
 	for (const std::unique_ptr<cFinishGen> & Finisher : m_FinishGens) {
 		if (cPieceStructuresGen * GridStructGen = dynamic_cast<cPieceStructuresGen *>(Finisher.get()))
 		{
-			GridStructGen->GetNearestStructure(structure, pos);
+			return GridStructGen->GetNearestStructure(structure, pos);
 		}
 	}
-	return Vector3i();
+	return pos;
 }
 
 

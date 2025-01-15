@@ -148,7 +148,7 @@ Vector3i cGridStructGen::GetNearestStructure(
 		FLOGD(
 			"Structure {0} at {1} has distance {2}", (*itr)->GetName(),
 			structurePos, sqrDist);
-		if (sqrDist < minDist)
+		if (sqrDist < minDist && sqrDist > 0)
 		{
 			minDist = sqrDist;
 			nearest = structurePos;

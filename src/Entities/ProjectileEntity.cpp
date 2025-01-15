@@ -344,6 +344,7 @@ AString cProjectileEntity::GetMCAClassName(void) const
 		case pkEgg:           return "Egg";
 		case pkGhastFireball: return "Fireball";
 		case pkFireCharge:    return "SmallFireball";
+		case pkEnderEye:      return "EyeOfEnderSignal";
 		case pkEnderPearl:    return "ThrownEnderpearl";
 		case pkExpBottle:     return "ThrownExpBottle";
 		case pkSplashPotion:  return "SplashPotion";
