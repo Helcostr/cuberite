@@ -34,3 +34,5 @@ target_sources(
 )
 
 add_subdirectory(Palettes)
+add_subdirectory(Enums)
+add_subdirectory(Sounds)

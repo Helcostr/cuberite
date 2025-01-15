@@ -104,6 +104,7 @@ public:
 	virtual void SendResourcePack               (const AString & a_ResourcePackUrl) override;
 	virtual void SendRespawn                    (eDimension a_Dimension) override;
 	virtual void SendSoundEffect                (const AString & a_SoundName, Vector3d a_Origin, float a_Volume, float a_Pitch) override;
+	virtual void SendSoundEffect                (const SoundEvent a_SoundEvent, Vector3d a_Origin, float a_Volume, float a_Pitch) override;
 	virtual void SendScoreboardObjective        (const AString & a_Name, const AString & a_DisplayName, Byte a_Mode) override;
 	virtual void SendScoreUpdate                (const AString & a_Objective, const AString & a_Player, cObjective::Score a_Score, Byte a_Mode) override;
 	virtual void SendDisplayObjective           (const AString & a_Objective, cScoreboard::eDisplaySlot a_Display) override;
