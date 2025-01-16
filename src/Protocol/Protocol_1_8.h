@@ -168,6 +168,8 @@ protected:
 	/** The 1.8 protocol use a particle id instead of a string. This function converts the name to the id. If the name is incorrect, it returns 0. */
 	virtual int GetProtocolParticleID(const AString & a_ParticleName) const;
 
+	virtual AString GetProtocolSoundEventAsString(SoundEvent a_SoundEvent) const;
+
 	/** Returns the protocol version. */
 	virtual Version GetProtocolVersion() const override;
 
