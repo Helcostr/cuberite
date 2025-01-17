@@ -11,8 +11,8 @@
 cThrownEnderEyeEntity::cThrownEnderEyeEntity(cEntity * a_Creator, Vector3d a_Pos, Vector3d a_Speed):
 	// Set speed to zero, but use the data for eye of ender calculations
 	Super(pkEnderEye, a_Creator, a_Pos, {0,0,0}, 0.25f, 0.25f),
-	b_SurviveAfterDeath(GetRandomProvider().RandBool(0.5)),
-	f_tx(0), f_ty(0), f_tz(0), xRot0(0), yRot0(0)
+	m_SurviveAfterDeath(GetRandomProvider().RandBool(0.5)),	
+	m_Target_X(0), m_Target_Y(0), m_Target_Z(0), xRot0(0), yRot0(0)
 {
 	// SetGravity(0.0f);
 	double d = a_Speed.x;
@@ -24,15 +24,15 @@ cThrownEnderEyeEntity::cThrownEnderEyeEntity(cEntity * a_Creator, Vector3d a_Pos
 	double f = sqrt(d2 * d2 + d4 * d4);
 	if (f > 12.f)
 	{
-		f_tx = a_Pos.x + d2 / f * 12.0;
-		f_tz = a_Pos.z + d4 / f * 12.0;
-		f_ty = a_Pos.y + 8.0;
+		m_Target_X = a_Pos.x + d2 / f * 12.0;
+		m_Target_Z = a_Pos.z + d4 / f * 12.0;
+		m_Target_Y = a_Pos.y + 8.0;
 	}
 	else
 	{
-		f_tx = d;
-		f_ty = n;
-		f_tz = d3;
+		m_Target_X = d;
+		m_Target_Y = n;
+		m_Target_Z = d3;
 	}
 }
 
@@ -86,8 +86,8 @@ void cThrownEnderEyeEntity::Tick(std::chrono::milliseconds a_Dt, cChunk & a_Chun
 	SetYaw(xRot0 + 0.2 * (xRot-xRot0));
 	SetPitch(yRot0 + 0.2 * (yRot - yRot0));
 
-	double d = f_tx - Pos.x;
-	double d2 = f_tz - Pos.z;
+	double d = m_Target_X - Pos.x;
+	double d2 = m_Target_Z - Pos.z;
 	double f2 = sqrt(d * d + d2 * d2);
 	double f3 = atan2(d2, d);
 	double d3 = f + 0.0025 * (f2 - f);
@@ -96,7 +96,7 @@ void cThrownEnderEyeEntity::Tick(std::chrono::milliseconds a_Dt, cChunk & a_Chun
 		d3 *= .8;
 		d4 *= .8;
 	}
-	int n = Pos.y < f_ty ? 1 : -1;
+	int n = Pos.y < m_Target_Y ? 1 : -1;
 	deltaMovement.Set(
 	  cos(f3) * d3,
 	  d4 + (n - d4)*.015,
@@ -109,7 +109,7 @@ void cThrownEnderEyeEntity::Tick(std::chrono::milliseconds a_Dt, cChunk & a_Chun
 		Destroy();
 		cWorld* a_World = GetWorld();
 		a_World->BroadcastSoundEffect(SoundEvent::EnderEyeDeath, Pos, 0.5f, 0.4f / GetRandomProvider().RandReal(0.8f, 1.2f));
-		if (b_SurviveAfterDeath) {
+		if (m_SurviveAfterDeath) {
 			cItems Pickups;
 			Pickups.Add(static_cast<ENUM_ITEM_TYPE>(E_ITEM_EYE_OF_ENDER), 1);
 			a_World->SpawnItemPickups(Pickups, Pos);
