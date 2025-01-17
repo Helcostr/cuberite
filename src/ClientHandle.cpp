@@ -3077,10 +3077,14 @@ void cClientHandle::SendSoundEffect(const AString & a_SoundName, double a_X, dou
 
 void cClientHandle::SendSoundEffect(const AString & a_SoundName, Vector3d a_Position, float a_Volume, float a_Pitch)
 {
-	LOG("SendSoundEffect with String is deprecated, use version with "
-		"SoundEvent enum.");
+	// Do we depricate?
+	// LOG("SendSoundEffect with String is deprecated, use version with SoundEvent enum.");
 	m_Protocol->SendSoundEffect(a_SoundName, a_Position, a_Volume, a_Pitch);
 }
+
+
+
+
 
 void cClientHandle::SendSoundEffect(const SoundEvent a_SoundEvent, Vector3d a_Position, float a_Volume, float a_Pitch)
 {

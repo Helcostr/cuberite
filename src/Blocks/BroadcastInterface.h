@@ -14,7 +14,6 @@ enum class EffectID : Int32;
 
 
 
-
 class cBroadcastInterface
 {
 public:

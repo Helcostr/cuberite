@@ -146,11 +146,14 @@ EMCSBiome cChunkGeneratorThread::GetBiomeAt(int a_BlockX, int a_BlockZ)
 	return m_Generator->GetBiomeAt(a_BlockX, a_BlockZ);
 }
 
-Vector3i cChunkGeneratorThread::GetNearestStructure(
-	AString structure, Vector3i pos)
+
+
+
+
+Vector3i cChunkGeneratorThread::GetNearestStructure(AString a_Structure, Vector3i a_Position)
 {
 	ASSERT(m_Generator != nullptr);
-	return m_Generator->GetNearestStructure(structure, pos);
+	return m_Generator->GetNearestStructure(a_Structure, a_Position);
 }
 
 

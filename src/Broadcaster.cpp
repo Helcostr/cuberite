@@ -563,6 +563,7 @@ void cWorld::BroadcastSoundEffect(const SoundEvent a_SoundEvent, Vector3d a_Posi
 
 
 
+
 void cWorld::BroadcastSoundParticleEffect(const EffectID a_EffectID, Vector3i a_SrcPos, int a_Data, const cClientHandle * a_Exclude)
 {
 	ForClientsWithChunkAtPos(a_SrcPos, *this, a_Exclude, [&](cClientHandle & a_Client)
@@ -571,8 +572,6 @@ void cWorld::BroadcastSoundParticleEffect(const EffectID a_EffectID, Vector3i a_
 		}
 	);
 }
-
-
 
 
 

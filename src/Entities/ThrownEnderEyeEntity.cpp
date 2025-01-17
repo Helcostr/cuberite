@@ -9,7 +9,7 @@
 
 
 cThrownEnderEyeEntity::cThrownEnderEyeEntity(cEntity * a_Creator, Vector3d a_Pos, Vector3d a_Speed):
-    // Set speed to zero, but use the data for eye of ender calculations
+	// Set speed to zero, but use the data for eye of ender calculations
 	Super(pkEnderEye, a_Creator, a_Pos, {0,0,0}, 0.25f, 0.25f),
 	b_SurviveAfterDeath(GetRandomProvider().RandBool(0.5)),
 	f_tx(0), f_ty(0), f_tz(0), xRot0(0), yRot0(0)
@@ -36,15 +36,24 @@ cThrownEnderEyeEntity::cThrownEnderEyeEntity(cEntity * a_Creator, Vector3d a_Pos
 	}
 }
 
+
+
+
+
 void cThrownEnderEyeEntity::OnHitEntity(cEntity & a_EntityHit, Vector3d a_HitPos) { }
 
-void cThrownEnderEyeEntity::OnHitSolidBlock(
-	Vector3d a_HitPos, eBlockFace a_HitFace)
-{
-}
+
+
+
+
+void cThrownEnderEyeEntity::OnHitSolidBlock(Vector3d a_HitPos, eBlockFace a_HitFace) { }
+
+
+
+
 
 void cThrownEnderEyeEntity::Tick(std::chrono::milliseconds a_Dt, cChunk & a_Chunk) {
-    // IIRC, obj stored into obj is bad? Improve robustness of Vector?
+	// IIRC, obj stored into obj is bad? Improve robustness of Vector?
 	Vector3d Pos = GetPosition();
 
 	// This is a bit of a mess, but it's a direct port of the Java code.
@@ -105,27 +114,9 @@ void cThrownEnderEyeEntity::Tick(std::chrono::milliseconds a_Dt, cChunk & a_Chun
 			Pickups.Add(static_cast<ENUM_ITEM_TYPE>(E_ITEM_EYE_OF_ENDER), 1);
 			a_World->SpawnItemPickups(Pickups, Pos);
 		} else {
-			/**
-			* Java level event #2003
-				double d = (double)blockPos.getX() + 0.5;
-                double d11 = blockPos.getY();
-                double d12 = (double)blockPos.getZ() + 0.5;
-
-				// Is this just the particles for the ender eye breaking???
-				// If so, use???:
-				// m_World->BroadcastEntityAnimation(*this, EntityAnimation::EggCracks);
-                for (int i = 0; i < 8; ++i) {
-                    this.addParticle(new ItemParticleOption(ParticleTypes.ITEM, new ItemStack(Items.ENDER_EYE)), d, d11, d12, random.nextGaussian() * 0.15, random.nextDouble() * 0.2, random.nextGaussian() * 0.15);
-                }
-                for (double d13 = 0.0; d13 < Math.PI * 2; d13 += 0.15707963267948966) {
-                    this.addParticle(ParticleTypes.PORTAL, d + Math.cos(d13) * 5.0, d11 - 0.4, d12 + Math.sin(d13) * 5.0, Math.cos(d13) * -5.0, 0.0, Math.sin(d13) * -5.0);
-                    this.addParticle(ParticleTypes.PORTAL, d + Math.cos(d13) * 5.0, d11 - 0.4, d12 + Math.sin(d13) * 5.0, Math.cos(d13) * -7.0, 0.0, Math.sin(d13) * -7.0);
-                }
-			*/
+			// TODO: Java level event #2003
 		}
 	}
 }
 
 void cThrownEnderEyeEntity::HandlePhysics(std::chrono::milliseconds a_Dt, cChunk & a_Chunk) { }
-
-
