@@ -578,7 +578,7 @@ AString cCaveTunnel::ExportAsSVG(int a_Color, int a_OffsetX, int a_OffsetZ) cons
 // cStructGenWormNestCaves::cCaveSystem:
 
 cStructGenWormNestCaves::cCaveSystem::cCaveSystem(int a_GridX, int a_GridZ, int a_OriginX, int a_OriginZ, int a_MaxOffset, int a_Size, cNoise & a_Noise) :
-	Super("CaveSystem", a_GridX, a_GridZ, a_OriginX, a_OriginZ),
+	Super(a_GridX, a_GridZ, a_OriginX, a_OriginZ),
 	m_Size(a_Size)
 {
 	int Num = 1 + a_Noise.IntNoise2DInt(a_OriginX, a_OriginZ) % 3;

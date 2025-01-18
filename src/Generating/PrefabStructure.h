@@ -24,7 +24,6 @@ class cPrefabStructure:
 public:
 
 	cPrefabStructure(
-		AString a_Name,
 		int a_GridX, int a_GridZ,
 		int a_OriginX, int a_OriginZ,
 		cPlacedPieces && a_Pieces,

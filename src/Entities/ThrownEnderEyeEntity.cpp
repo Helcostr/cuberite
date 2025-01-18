@@ -65,13 +65,13 @@ void cThrownEnderEyeEntity::Tick(std::chrono::milliseconds a_Dt, cChunk & a_Chun
 
 	Super::Tick(a_Dt, a_Chunk);
 	// FLOGD("Eye of Ender at {0:.02f} with speed {1:.02f}", Pos,GetSpeed());
-	Pos += deltaMovement;
+	Pos += m_DeltaMovement;
 	SetPosition(Pos);
-	double f = sqrt(deltaMovement.x * deltaMovement.x
-	  + deltaMovement.z * deltaMovement.z);
+	double f = sqrt(m_DeltaMovement.x * m_DeltaMovement.x
+	  + m_DeltaMovement.z * m_DeltaMovement.z);
 	static const float magicNumber = 57.2957763671875;
-	double yRot = atan2(deltaMovement.x, deltaMovement.z) * magicNumber;
-	double xRot = atan2(deltaMovement.y, f) * magicNumber;
+	double yRot = atan2(m_DeltaMovement.x, m_DeltaMovement.z) * magicNumber;
+	double xRot = atan2(m_DeltaMovement.y, f) * magicNumber;
 
 	while (xRot - xRot0 < -180.0f) { xRot0 -= 360.0f; }
 	while (xRot - xRot0 >= 180.0f) { xRot0 += 360.0f; }
@@ -91,18 +91,18 @@ void cThrownEnderEyeEntity::Tick(std::chrono::milliseconds a_Dt, cChunk & a_Chun
 	double f2 = sqrt(d * d + d2 * d2);
 	double f3 = atan2(d2, d);
 	double d3 = f + 0.0025 * (f2 - f);
-	double d4 = deltaMovement.y;
+	double d4 = m_DeltaMovement.y;
 	if (f2 < 1.0) {
 		d3 *= .8;
 		d4 *= .8;
 	}
 	int n = Pos.y < m_Target_Y ? 1 : -1;
-	deltaMovement.Set(
+	m_DeltaMovement.Set(
 	  cos(f3) * d3,
 	  d4 + (n - d4)*.015,
 	  sin(f3) * d3
 	);
-	SetSpeed(deltaMovement.x * 20., deltaMovement.y * 20., deltaMovement.z * 20.);
+	SetSpeed(m_DeltaMovement.x * 20., m_DeltaMovement.y * 20., m_DeltaMovement.z * 20.);
 
 	// Death of the ender eye if old enough
 	if (m_TicksAlive > 80) {

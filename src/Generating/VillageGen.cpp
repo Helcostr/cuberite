@@ -127,7 +127,7 @@ public:
 		cVillagePiecePool & a_Prefabs,
 		cTerrainHeightGen & a_HeightGen
 	):
-	  Super("Village", a_GridX, a_GridZ, a_OriginX, a_OriginZ),
+	  Super(a_GridX, a_GridZ, a_OriginX, a_OriginZ),
 		m_Seed(a_Seed),
 		m_Noise(a_Seed),
 		m_MaxSize(a_MaxSize),

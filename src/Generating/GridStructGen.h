@@ -49,7 +49,6 @@ public:
 	class cStructure
 	{
 	public:
-		AString m_Name;
 		/** The grid point for which the structure is generated. */
 		int m_GridX, m_GridZ;
 
@@ -59,10 +58,8 @@ public:
 
 		/** Creates a structure that has its origin set at the specified coords.
 		 */
-		cStructure(
-			AString a_Name, int a_GridX, int a_GridZ, int a_OriginX,
+		cStructure(int a_GridX, int a_GridZ, int a_OriginX,
 			int a_OriginZ) :
-			m_Name(a_Name),
 			m_GridX(a_GridX),
 			m_GridZ(a_GridZ),
 			m_OriginX(a_OriginX),
@@ -79,7 +76,7 @@ public:
 		/** Returns the cost of keeping this structure in the cache */
 		virtual size_t GetCacheCost(void) const { return 1; }
 
-		AString GetName() const { return m_Name; };
+		// AString GetName() const { return m_Name; };
 	};
 	typedef std::shared_ptr<cStructure> cStructurePtr;
 	typedef std::list<cStructurePtr> cStructurePtrs;

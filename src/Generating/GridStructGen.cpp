@@ -24,7 +24,7 @@ class cEmptyStructure:
 public:
 
 	cEmptyStructure(int a_GridX, int a_GridZ, int a_OriginX, int a_OriginZ) :
-	  Super("EmptyStructure", a_GridX, a_GridZ, a_OriginX, a_OriginZ)
+	  Super(a_GridX, a_GridZ, a_OriginX, a_OriginZ)
 	{
 	}
 
@@ -146,7 +146,7 @@ Vector3i cGridStructGen::GetNearestStructure(
 			(*itr)->m_OriginZ + (*itr)->m_GridZ * m_GridSizeZ);
 		double sqrDist = (a_StartPos - structurePos).SqrLength();
 		FLOGD(
-			"Structure {0} at {1} has distance {2}", (*itr)->GetName(),
+			"Structure {0} at {1} has distance {2}", a_StructureName,
 			structurePos, sqrDist);
 		if (sqrDist < minDist && sqrDist > 0)
 		{
