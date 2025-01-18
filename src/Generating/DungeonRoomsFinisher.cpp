@@ -38,7 +38,7 @@ public:
 		int a_FloorHeight,
 		cNoise & a_Noise
 	):
-	  Super(a_GridX, a_GridZ, a_OriginX, a_OriginZ),
+		Super(a_GridX, a_GridZ, a_OriginX, a_OriginZ),
 		m_StartX(a_OriginX - a_HalfSizeX),
 		m_EndX(a_OriginX + a_HalfSizeX),
 		m_StartZ(a_OriginZ - a_HalfSizeZ),

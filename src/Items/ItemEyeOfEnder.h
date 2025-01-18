@@ -16,7 +16,7 @@ class cItemEyeOfEnderHandler final:
 public:
 
 	constexpr cItemEyeOfEnderHandler(int a_ItemType):
-	    Super(a_ItemType, cProjectileEntity::pkEnderEye, 20)
+		Super(a_ItemType, cProjectileEntity::pkEnderEye, 0)
 	{
 	}
 
@@ -60,21 +60,26 @@ public:
 		}
 
 		// Throw Eye Of Ender instead:
-		Vector3d throw_start_position = a_Player->GetThrowStartPos();
+		Vector3d throwStartPos = a_Player->GetThrowStartPos();
 		Vector3i playerPos = a_Player->GetPosition();
+
 		Vector3d Speed = a_World->GetGenerator().GetNearestStructure(
-			"Fortress", playerPos);
+			"Fortress", playerPos);	 // HARDCODED: Fortress
+
+		// If can't find a fortres, quit out.
 		if (Speed == playerPos) return false;
 
-		if (a_World->CreateProjectile(throw_start_position, m_ProjectileKind, a_Player,
-				&a_Player->GetEquippedItem(), &Speed) == cEntity::INVALID_ID)
+		if (a_World->CreateProjectile(throwStartPos, m_ProjectileKind, a_Player,
+			&a_Player->GetEquippedItem(), &Speed) == cEntity::INVALID_ID)
 		{
 			return false;
 		}
+
+		// Hardcoding pitch might pose a problem
 		a_World->BroadcastSoundEffect(
-		  SoundEvent::EnderEyeLaunch,
-		  a_Player->GetPosition() - Vector3d(0, a_Player->GetHeight(), 0),
-		  1.f, 0.4f / GetRandomProvider().RandReal(0.8f, 1.2f));
+			SoundEvent::EnderEyeLaunch,
+			a_Player->GetPosition() - Vector3d(0, a_Player->GetHeight(), 0),
+			1.f, 0.8f);
 		// Level event 1003
 
 		if (!a_Player->IsGameModeCreative())

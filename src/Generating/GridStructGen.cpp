@@ -24,7 +24,7 @@ class cEmptyStructure:
 public:
 
 	cEmptyStructure(int a_GridX, int a_GridZ, int a_OriginX, int a_OriginZ) :
-	  Super(a_GridX, a_GridZ, a_OriginX, a_OriginZ)
+		Super(a_GridX, a_GridZ, a_OriginX, a_OriginZ)
 	{
 	}
 
@@ -126,15 +126,20 @@ void cGridStructGen::SetGeneratorParams(const AStringMap & a_GeneratorParams)
 	m_Noise.SetSeed(m_Seed);
 }
 
+
+
+
+
 Vector3i cGridStructGen::GetNearestStructure(
 	AString a_StructureName, Vector3i a_StartPos)
-{	
+{
 	cStructurePtrs Structures;
 	cChunkCoords origin = cChunkDef::BlockToChunk(a_StartPos);
 	GetStructuresForChunk(origin.m_ChunkX, origin.m_ChunkZ, Structures, 100);
 	FLOGD(
-		"cGridStructGen::GetNearestStructure: origin chunk coords: {0}. Amount of structures to sift through {1}",
-		origin, Structures.size());
+		"cGridStructGen::GetNearestStructure: origin chunk coords: {0}."
+		" Amount of \"{2}\" structures to sift through {1}",
+		origin, Structures.size(), a_StructureName);
 	double minDist = std::numeric_limits<double>::max();
 	Vector3i nearest = a_StartPos;
 	for (cStructurePtrs::const_iterator itr = Structures.begin();
@@ -166,18 +171,18 @@ void cGridStructGen::GetStructuresForChunk(int a_ChunkX, int a_ChunkZ, cStructur
 	GetStructuresForChunk(a_ChunkX, a_ChunkZ, a_Structures, 0);
 }
 
-void cGridStructGen::GetStructuresForChunk(
-	int a_ChunkX, int a_ChunkZ, cStructurePtrs & a_Structures, int a_Radius)
+void cGridStructGen::GetStructuresForChunk(int a_ChunkX, int a_ChunkZ,
+	cStructurePtrs & a_Structures, int a_Radius)
 {
 	// Calculate the min and max grid coords of the structures to be returned:
 	int MinBlockX = (a_ChunkX - a_Radius) * cChunkDef::Width -
-					m_MaxStructureSizeX - m_MaxOffsetX;
+		m_MaxStructureSizeX - m_MaxOffsetX;
 	int MinBlockZ = (a_ChunkZ - a_Radius) * cChunkDef::Width -
-					m_MaxStructureSizeZ - m_MaxOffsetZ;
+		m_MaxStructureSizeZ - m_MaxOffsetZ;
 	int MaxBlockX = (a_ChunkX + a_Radius) * cChunkDef::Width +
-					m_MaxStructureSizeX + m_MaxOffsetX + cChunkDef::Width - 1;
+		m_MaxStructureSizeX + m_MaxOffsetX + cChunkDef::Width - 1;
 	int MaxBlockZ = (a_ChunkZ + a_Radius) * cChunkDef::Width +
-					m_MaxStructureSizeZ + m_MaxOffsetZ + cChunkDef::Width - 1;
+		m_MaxStructureSizeZ + m_MaxOffsetZ + cChunkDef::Width - 1;
 	int MinGridX = MinBlockX / m_GridSizeX;
 	int MinGridZ = MinBlockZ / m_GridSizeZ;
 	int MaxGridX = (MaxBlockX + m_GridSizeX - 1) / m_GridSizeX;

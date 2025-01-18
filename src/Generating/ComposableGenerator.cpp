@@ -195,16 +195,19 @@ void cComposableGenerator::Generate(cChunkDesc & a_ChunkDesc)
 	}
 }
 
-Vector3i cComposableGenerator::GetNearestStructure(
-	AString structure, Vector3i pos)
+
+
+
+Vector3i cComposableGenerator::GetNearestStructure(AString a_Structure, Vector3i a_Position)
 {
-	for (const std::unique_ptr<cFinishGen> & Finisher : m_FinishGens) {
+	for (const std::unique_ptr<cFinishGen> & Finisher : m_FinishGens)
+	{
 		if (cPieceStructuresGen * GridStructGen = dynamic_cast<cPieceStructuresGen *>(Finisher.get()))
 		{
-			return GridStructGen->GetNearestStructure(structure, pos);
+			return GridStructGen->GetNearestStructure(a_Structure, a_Position);
 		}
 	}
-	return pos;
+	return a_Position;
 }
 
 

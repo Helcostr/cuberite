@@ -56,10 +56,8 @@ public:
 		int m_OriginX, m_OriginZ;
 
 
-		/** Creates a structure that has its origin set at the specified coords.
-		 */
-		cStructure(int a_GridX, int a_GridZ, int a_OriginX,
-			int a_OriginZ) :
+		/** Creates a structure that has its origin set at the specified coords. */
+		cStructure(int a_GridX, int a_GridZ, int a_OriginX, int a_OriginZ) :
 			m_GridX(a_GridX),
 			m_GridZ(a_GridZ),
 			m_OriginX(a_OriginX),
@@ -75,17 +73,18 @@ public:
 
 		/** Returns the cost of keeping this structure in the cache */
 		virtual size_t GetCacheCost(void) const { return 1; }
-
-		// AString GetName() const { return m_Name; };
-	};
+	} ;
 	typedef std::shared_ptr<cStructure> cStructurePtr;
 	typedef std::list<cStructurePtr> cStructurePtrs;
 
 
 	cGridStructGen(
-		int a_Seed, int a_GridSizeX, int a_GridSizeZ, int a_MaxOffsetX,
-		int a_MaxOffsetZ, int a_MaxStructureSizeX, int a_MaxStructureSizeZ,
-		size_t a_MaxCacheSize);
+		int a_Seed,
+		int a_GridSizeX, int a_GridSizeZ,
+		int a_MaxOffsetX, int a_MaxOffsetZ,
+		int a_MaxStructureSizeX, int a_MaxStructureSizeZ,
+		size_t a_MaxCacheSize
+	);
 
 	/** Creates a new instance that has the generation parameters set to
 	defaults. This is used for instances that are later loaded from a file. */
@@ -95,6 +94,8 @@ public:
 	Note that this must not be called anymore after generating a chunk. */
 	void SetGeneratorParams(const AStringMap & a_GeneratorParams);
 
+	/** Gets the nearest structure from the current position
+	By reaching a GridStructGen, we expect that the type of structure has been filtered down */
 	Vector3i GetNearestStructure(AString a_StructureName, Vector3i a_StartPos);
 
 	// cFinishGen override:
@@ -148,12 +149,11 @@ protected:
 	The structures are considered as intersecting iff their bounding box (defined by m_MaxStructureSize)
 	around their gridpoint intersects the chunk. */
 	void GetStructuresForChunk(int a_ChunkX, int a_ChunkZ, cStructurePtrs & a_Structures);
-	/*
-	Returns all structures that may intersect the given chunk or a radius beyond.
+
+	/**	Returns all structures that may intersect the given chunk or a "radius" beyond.
 	The structures are considered as intersecting iff their bounding box
-	(defined by m_MaxStructureSize) around their gridpoint intersects the chunk.
-	*/
-	void GetStructuresForChunk(int a_ChunkX, int a_ChunkZ, cStructurePtrs & a_Structures, int radius);
+	(defined by m_MaxStructureSize) around their gridpoint intersects the chunk. */
+	void GetStructuresForChunk(int a_ChunkX, int a_ChunkZ, cStructurePtrs & a_Structures, int a_Radius);
 
 	// Functions for the descendants to override:
 	/** Create a new structure at the specified gridpoint */

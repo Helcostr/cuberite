@@ -1406,10 +1406,10 @@ void cProtocol_1_8_0::SendSoundEffect(const AString & a_SoundName, Vector3d a_Or
 
 
 
-void cProtocol_1_8_0::SendSoundEffect(
-	SoundEvent a_SoundEvent, Vector3d a_Origin, float a_Volume, float a_Pitch)
+void cProtocol_1_8_0::SendSoundEffect(SoundEvent a_SoundEvent,
+	Vector3d a_Origin, float a_Volume, float a_Pitch)
 {
-	AString soundName = GetProtocolSoundEventAsString(a_SoundEvent);
+	AString soundName = GetProtocolSoundEffectAsString(a_SoundEvent);
 	if (soundName.empty())
 	{
 		FLOGD("SoundEvent enum {0} is missing a related sound effect.", a_SoundEvent);
@@ -1426,7 +1426,6 @@ void cProtocol_1_8_0::SendSoundEffect(
 	Pkt.WriteBEFloat(a_Volume);
 	Pkt.WriteBEUInt8(static_cast<Byte>(a_Pitch * 63));
 }
-
 
 
 

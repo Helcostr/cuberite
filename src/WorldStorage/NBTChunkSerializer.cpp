@@ -1033,8 +1033,10 @@ public:
 
 	void AddProjectileEntity(cProjectileEntity * a_Projectile)
 	{
-		if (a_Projectile->GetProjectileKind() == cProjectileEntity::pkEnderEye)
-			return;
+		// TODO: Make EnderEye saveable between server changes
+		// (this save data breaks in 1.8, is there a version that actually saves EnderEye pos/data???)
+		if (a_Projectile->GetProjectileKind()
+			== cProjectileEntity::pkEnderEye) return;
 		mWriter.BeginCompound("");
 			AddBasicEntity(a_Projectile, a_Projectile->GetMCAClassName());
 			mWriter.AddByte("inGround", a_Projectile->IsInGround() ? 1 : 0);

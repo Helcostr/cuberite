@@ -35,7 +35,9 @@ public:
 	The default implementation uses GenerateBiomes(). */
 	virtual EMCSBiome GetBiomeAt(int a_BlockX, int a_BlockZ);
 
-	virtual Vector3i GetNearestStructure(AString structure, Vector3i pos);
+	/** Returns the BlockCoordinates of the nearest queriede structure.
+	To be implemented by CompostableGenerator; has no logic in this class */
+	virtual Vector3i GetNearestStructure(AString a_Structure, Vector3i a_Position);
 
 	/** Does the actual chunk generation.
 	Descendants need to override this and generate into a_ChunkDesc. */

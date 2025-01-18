@@ -444,7 +444,6 @@ public:
 	virtual void SendSetRawSubTitle             (const AString & a_SubTitle) = 0;
 	virtual void SendSetTitle                   (const cCompositeChat & a_Title) = 0;
 	virtual void SendSetRawTitle                (const AString & a_Title) = 0;
-	[[deprecated("Use SoundEvent enum instead of AString")]]
 	virtual void SendSoundEffect                (const AString & a_SoundName, Vector3d a_Origin, float a_Volume, float a_Pitch) = 0;
 	virtual void SendSoundEffect                (const SoundEvent a_SoundEvent, Vector3d a_Origin, float a_Volume, float a_Pitch) = 0;
 	virtual void SendSoundParticleEffect        (const EffectID a_EffectID, Vector3i a_Origin, int a_Data) = 0;
