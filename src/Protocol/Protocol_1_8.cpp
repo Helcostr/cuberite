@@ -488,6 +488,7 @@ void cProtocol_1_8_0::SendEntityAnimation(const cEntity & a_Entity, const Entity
 		cPacketizer Pkt(*this, pktEntityAnimation);
 		Pkt.WriteVarInt32(a_Entity.GetUniqueID());
 		Pkt.WriteBEUInt8(AnimationID);
+		FLOGD("Animation: {0}", AnimationID);
 		return;
 	}
 
@@ -496,6 +497,7 @@ void cProtocol_1_8_0::SendEntityAnimation(const cEntity & a_Entity, const Entity
 		cPacketizer Pkt(*this, pktEntityStatus);
 		Pkt.WriteBEUInt32(a_Entity.GetUniqueID());
 		Pkt.WriteBEInt8(StatusID);
+		FLOGD("Status: {0} {1} {2}", StatusID, a_Entity.GetUniqueID(), a_Entity.GetEntityType());
 	}
 }
 
