@@ -136,10 +136,6 @@ Vector3i cGridStructGen::GetNearestStructure(
 	cStructurePtrs Structures;
 	cChunkCoords origin = cChunkDef::BlockToChunk(a_StartPos);
 	GetStructuresForChunk(origin.m_ChunkX, origin.m_ChunkZ, Structures, 100);
-	FLOGD(
-		"cGridStructGen::GetNearestStructure: origin chunk coords: {0}."
-		" Amount of \"{2}\" structures to sift through {1}",
-		origin, Structures.size(), a_StructureName);
 	double minDist = std::numeric_limits<double>::max();
 	Vector3i nearest = a_StartPos;
 	for (cStructurePtrs::const_iterator itr = Structures.begin();
@@ -150,9 +146,6 @@ Vector3i cGridStructGen::GetNearestStructure(
 			(*itr)->m_OriginX + (*itr)->m_GridX * m_GridSizeX, 0,
 			(*itr)->m_OriginZ + (*itr)->m_GridZ * m_GridSizeZ);
 		double sqrDist = (a_StartPos - structurePos).SqrLength();
-		FLOGD(
-			"Structure {0} at {1} has distance {2}", a_StructureName,
-			structurePos, sqrDist);
 		if (sqrDist < minDist && sqrDist > 0)
 		{
 			minDist = sqrDist;

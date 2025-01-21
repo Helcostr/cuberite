@@ -12,9 +12,10 @@ cThrownEnderEyeEntity::cThrownEnderEyeEntity(cEntity * a_Creator, Vector3d a_Pos
 	// Set speed to zero, but use the data for eye of ender calculations
 	Super(pkEnderEye, a_Creator, a_Pos, {0,0,0}, 0.25f, 0.25f),
 	// 50% chance of surviving after death (hardcoded)
-	// m_SurviveAfterDeath(GetRandomProvider().RandBool(0.5))
-	m_SurviveAfterDeath(false)
+	m_SurviveAfterDeath(GetRandomProvider().RandBool(0.5))
+	// m_SurviveAfterDeath(false)
 {
+	m_IsInGround = false;
 	static const double diveDist = 12.0;
 	double deltaX = a_TargetPos.x - a_Pos.x;
 	double deltaZ = a_TargetPos.z - a_Pos.z;
@@ -106,17 +107,22 @@ void cThrownEnderEyeEntity::HandlePhysics(std::chrono::milliseconds a_Dt, cChunk
 
 
 void cThrownEnderEyeEntity::EndOfLife() {
-	cWorld * a_World = GetWorld();
 	Vector3d Pos = GetPosition();
 	// Hardcoding pitch might pose a problem
-	a_World->BroadcastSoundEffect(SoundEvent::EnderEyeDeath, Pos, 1.0f, 0.8f);
+	
 	if (m_SurviveAfterDeath) {
 		cItems Pickups;
 		Pickups.Add(static_cast<ENUM_ITEM_TYPE>(E_ITEM_EYE_OF_ENDER), 1);
-		a_World->SpawnItemPickups(Pickups, Pos);
+		m_World->SpawnItemPickups(Pickups, Pos, {
+			GetRandomProvider().RandReal(-2.5, 2.5),
+			5,
+			GetRandomProvider().RandReal(-2.5, 2.5)
+		});
+		m_World->BroadcastSoundEffect(SoundEvent::EnderEyeCustomSurvive, Pos, 1.0f, 0.8f);
 	} else {
-		// TODO: Java level event #2003 (ender eye crack)
-		m_World->BroadcastEntityAnimation(*this, EntityAnimation::EggCracks);
+		m_World->BroadcastSoundEffect(SoundEvent::EnderEyeDeath, Pos, 1.0f, 0.8f);
+		m_World->BroadcastSoundParticleEffect(EffectID::PARTICLE_EYE_OF_ENDER, Pos, 0, 0);
 	}
+	m_IsInGround = true;
 	Destroy();
 }
