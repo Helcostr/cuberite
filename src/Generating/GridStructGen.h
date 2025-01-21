@@ -57,7 +57,7 @@ public:
 
 
 		/** Creates a structure that has its origin set at the specified coords. */
-		cStructure(int a_GridX, int a_GridZ, int a_OriginX, int a_OriginZ) :
+		cStructure (int a_GridX, int a_GridZ, int a_OriginX, int a_OriginZ) :
 			m_GridX(a_GridX),
 			m_GridZ(a_GridZ),
 			m_OriginX(a_OriginX),
@@ -86,8 +86,8 @@ public:
 		size_t a_MaxCacheSize
 	);
 
-	/** Creates a new instance that has the generation parameters set to
-	defaults. This is used for instances that are later loaded from a file. */
+	/** Creates a new instance that has the generation parameters set to defaults.
+	This is used for instances that are later loaded from a file. */
 	cGridStructGen(int a_Seed);
 
 	/** Sets the generator params based on the dictionary passed in.

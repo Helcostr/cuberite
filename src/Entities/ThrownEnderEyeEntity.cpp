@@ -60,22 +60,19 @@ void cThrownEnderEyeEntity::Tick(std::chrono::milliseconds a_Dt, cChunk & a_Chun
 
 
 void cThrownEnderEyeEntity::HandlePhysics(std::chrono::milliseconds a_Dt, cChunk & a_Chunk) {
-	static const float radToDegrees = 57.2957763671875;
+	static const float radToDegrees = 57.2957763671875;  // Store somewhere else?
 	double DtSec = std::chrono::duration_cast<std::chrono::duration<double>>(a_Dt).count();
 
 	// Position calculations
 	Vector3d Pos = GetPosition();
 	double vectorXZ = sqrt(m_DtVector.x * m_DtVector.x + m_DtVector.z * m_DtVector.z);
-	double distanceRemainingX = m_Target.x - Pos.x;
-	double distanceRemainingZ = m_Target.z - Pos.z;
-	double remainingXZ = sqrt(
-		distanceRemainingX * distanceRemainingX +
-		distanceRemainingZ * distanceRemainingZ);
-	double radianValue = atan2(distanceRemainingZ, distanceRemainingX);
+	double distRemainX = m_Target.x - Pos.x;
+	double distRemainZ = m_Target.z - Pos.z;
+	double remainingXZ = sqrt(distRemainX * distRemainX + distRemainZ * distRemainZ);
+	double radianValue = atan2(distRemainZ, distRemainX);
 	double scaler = vectorXZ + (remainingXZ - vectorXZ) * .05 * DtSec;
 	double vectorY = m_DtVector.y;
-	if (remainingXZ < 1.0)
-	{
+	if (remainingXZ < 1.0) {
 		scaler *= .8;
 		vectorY *= .8;
 	}
@@ -108,8 +105,6 @@ void cThrownEnderEyeEntity::HandlePhysics(std::chrono::milliseconds a_Dt, cChunk
 
 void cThrownEnderEyeEntity::EndOfLife() {
 	Vector3d Pos = GetPosition();
-	// Hardcoding pitch might pose a problem
-	
 	if (m_SurviveAfterDeath) {
 		cItems Pickups;
 		Pickups.Add(static_cast<ENUM_ITEM_TYPE>(E_ITEM_EYE_OF_ENDER), 1);

@@ -488,7 +488,6 @@ void cProtocol_1_8_0::SendEntityAnimation(const cEntity & a_Entity, const Entity
 		cPacketizer Pkt(*this, pktEntityAnimation);
 		Pkt.WriteVarInt32(a_Entity.GetUniqueID());
 		Pkt.WriteBEUInt8(AnimationID);
-		FLOGD("Animation: {0}", AnimationID);
 		return;
 	}
 
@@ -497,7 +496,6 @@ void cProtocol_1_8_0::SendEntityAnimation(const cEntity & a_Entity, const Entity
 		cPacketizer Pkt(*this, pktEntityStatus);
 		Pkt.WriteBEUInt32(a_Entity.GetUniqueID());
 		Pkt.WriteBEInt8(StatusID);
-		FLOGD("Status: {0} {1} {2}", StatusID, a_Entity.GetUniqueID(), a_Entity.GetEntityType());
 	}
 }
 
@@ -1408,8 +1406,7 @@ void cProtocol_1_8_0::SendSoundEffect(const AString & a_SoundName, Vector3d a_Or
 
 
 
-void cProtocol_1_8_0::SendSoundEffect(SoundEvent a_SoundEvent,
-	Vector3d a_Origin, float a_Volume, float a_Pitch)
+void cProtocol_1_8_0::SendSoundEffect(SoundEvent a_SoundEvent, Vector3d a_Origin, float a_Volume, float a_Pitch)
 {
 	AString soundName = GetProtocolSoundEffectAsString(a_SoundEvent);
 	if (soundName.empty())

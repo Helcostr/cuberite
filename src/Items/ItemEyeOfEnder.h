@@ -66,7 +66,7 @@ public:
 		Vector3d Speed = a_World->GetGenerator().GetNearestStructure(
 			"Fortress", playerPos);	 // HARDCODED: Fortress
 
-		// If can't find a fortres, quit out.
+		// If can't find a fortress, quit out.
 		if (Speed == playerPos) return false;
 
 		if (a_World->CreateProjectile(throwStartPos, m_ProjectileKind, a_Player,

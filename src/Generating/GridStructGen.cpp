@@ -130,8 +130,7 @@ void cGridStructGen::SetGeneratorParams(const AStringMap & a_GeneratorParams)
 
 
 
-Vector3i cGridStructGen::GetNearestStructure(
-	AString a_StructureName, Vector3i a_StartPos)
+Vector3i cGridStructGen::GetNearestStructure(AString a_StructureName, Vector3i a_StartPos)
 {
 	cStructurePtrs Structures;
 	cChunkCoords origin = cChunkDef::BlockToChunk(a_StartPos);
@@ -139,7 +138,7 @@ Vector3i cGridStructGen::GetNearestStructure(
 	double minDist = std::numeric_limits<double>::max();
 	Vector3i nearest = a_StartPos;
 	for (cStructurePtrs::const_iterator itr = Structures.begin();
-		 itr != Structures.end(); ++itr)
+		itr != Structures.end(); ++itr)
 	{
 		// convert itr's grid coords to block coords
 		Vector3i structurePos = Vector3i(
@@ -164,8 +163,11 @@ void cGridStructGen::GetStructuresForChunk(int a_ChunkX, int a_ChunkZ, cStructur
 	GetStructuresForChunk(a_ChunkX, a_ChunkZ, a_Structures, 0);
 }
 
-void cGridStructGen::GetStructuresForChunk(int a_ChunkX, int a_ChunkZ,
-	cStructurePtrs & a_Structures, int a_Radius)
+
+
+
+
+void cGridStructGen::GetStructuresForChunk(int a_ChunkX, int a_ChunkZ, cStructurePtrs & a_Structures, int a_Radius)
 {
 	// Calculate the min and max grid coords of the structures to be returned:
 	int MinBlockX = (a_ChunkX - a_Radius) * cChunkDef::Width -

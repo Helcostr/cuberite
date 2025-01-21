@@ -183,7 +183,7 @@ Vector3i cPieceStructuresGen::GetNearestStructure(AString a_Structure, Vector3i 
 			return Gen->GetNearestStructure(a_Structure, a_Position);
 		}
 	}
-	return a_Position;	// No such structure found
+	return a_Position;  // No such structure found
 }
 
 
